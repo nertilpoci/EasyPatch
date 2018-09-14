@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Web.Http.ModelBinding;
 
 namespace EasyPatch.Common.Implementation
 {
@@ -146,6 +147,15 @@ namespace EasyPatch.Common.Implementation
         protected virtual IEnumerable<KeyValuePair<string, string>> Validate(TRequest request)
         {
             return _validator != null ? _validator.Validate(request).Errors.Select(z => new KeyValuePair<string, string>(z.PropertyName, z.ErrorMessage)) : Enumerable.Empty<KeyValuePair<string, string>>();
+        }
+        public virtual  ModelStateDictionary ModelState(TRequest request)
+        {
+            var state = new ModelStateDictionary() { };
+            foreach (var error in Validate(request))
+            {
+                state.AddModelError(error.Key, error.Value);
+            }
+            return state;
         }
     }
 
