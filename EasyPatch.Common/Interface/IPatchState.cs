@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EasyPatch.Common.Interface
 {
-    public interface IPatchState<TRequest, TModel> : IPatchState<TRequest>, IPatchState
+    public interface IPatchState<TRequest, TModel> : IPatchState<TRequest>
     where TRequest : class, IPatchState<TRequest, TModel>, new()
     {
         TRequest AddPatchStateMapping<TProperty>(
@@ -14,7 +14,7 @@ namespace EasyPatch.Common.Interface
         void Patch(TModel model);
     }
 
-    public interface IPatchState<TRequest>
+    public interface IPatchState<TRequest> : IPatchState
     {
         bool IsBound<TProperty>(Expression<Func<TRequest, TProperty>> propertyExpression);
     }
@@ -22,5 +22,6 @@ namespace EasyPatch.Common.Interface
     public interface IPatchState
     {
         void AddBoundProperty(string propertyName);
+        IEnumerable<KeyValuePair<string, string>> Validate();
     }
 }

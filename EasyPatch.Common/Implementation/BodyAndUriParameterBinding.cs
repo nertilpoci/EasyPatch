@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasyPatch.Common.Install;
+using EasyPatch.Common.Interface;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -18,15 +20,16 @@ namespace EasyPatch.Common.Implementation
 {
     public class BodyAndUriParameterBinding : HttpParameterBinding
     {
-        public BodyAndUriParameterBinding(HttpParameterDescriptor descriptor)
+        public BodyAndUriParameterBinding(HttpParameterDescriptor descriptor, Configuration config=null)
             : base(descriptor)
         {
             var httpConfiguration = descriptor.Configuration;
 
             BodyModelValidator = httpConfiguration.Services.GetBodyModelValidator();
             Formatters = httpConfiguration.Formatters;
+            configuration = config ?? new Configuration();
         }
-
+        private readonly Configuration configuration;
         private readonly IBodyModelValidator BodyModelValidator;
         public event EventHandler<BoundBodyContentToModelEventArgs> BoundBodyContentToModel;
         public event EventHandler<BoundUriKeyToModelEventArgs> BoundUriKeyToModel;
@@ -42,7 +45,6 @@ namespace EasyPatch.Common.Implementation
             var type = paramFromBody.ParameterType;
             var request = actionContext.ControllerContext.Request;
             var formatterLogger = new ModelStateFormatterLogger(actionContext.ModelState, paramFromBody.ParameterName);
-
             return ExecuteBindingAsyncCore(metadataProvider, actionContext, paramFromBody, type, request, formatterLogger, cancellationToken);
         }
 
@@ -88,6 +90,18 @@ namespace EasyPatch.Common.Implementation
             if (BodyModelValidator != null)
             {
                 BodyModelValidator.Validate(model, type, metadataProvider, actionContext, paramFromBody.ParameterName);
+            }
+
+            //custom validation from our rules
+            if (configuration.PopulateModelState)
+            {
+                if (model is IPatchState state)
+                {
+                    foreach (var error in state.Validate())
+                    {
+                        actionContext.ModelState.AddModelError(error.Key, error.Value);
+                    }
+                }
             }
         }
 

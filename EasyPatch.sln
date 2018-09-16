@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPatch.Common", "EasyPatch.Common\EasyPatch.Common.csproj", "{B155B195-70D5-40E3-9E1E-21E7DB8E0473}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7D52A3EE-AD9E-4782-A3BA-69962C7973DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPatch.WebApi", "EasyPatch.WebApi\EasyPatch.WebApi.csproj", "{5FFF0075-44C3-452D-8E47-D75CB91C5DC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{B155B195-70D5-40E3-9E1E-21E7DB8E0473}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B155B195-70D5-40E3-9E1E-21E7DB8E0473}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B155B195-70D5-40E3-9E1E-21E7DB8E0473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FFF0075-44C3-452D-8E47-D75CB91C5DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFF0075-44C3-452D-8E47-D75CB91C5DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FFF0075-44C3-452D-8E47-D75CB91C5DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FFF0075-44C3-452D-8E47-D75CB91C5DC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5FFF0075-44C3-452D-8E47-D75CB91C5DC6} = {7D52A3EE-AD9E-4782-A3BA-69962C7973DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D029DC9D-13C1-489F-8B98-2817FAC43214}

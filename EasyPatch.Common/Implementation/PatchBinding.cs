@@ -1,4 +1,5 @@
-﻿using EasyPatch.Common.Interface;
+﻿using EasyPatch.Common.Install;
+using EasyPatch.Common.Interface;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace EasyPatch.Common.Implementation
 {
     public class PatchBinding : BodyAndUriParameterBinding
     {
-        public PatchBinding(HttpParameterDescriptor descriptor)
-            : base(descriptor)
+        public PatchBinding(HttpParameterDescriptor descriptor, Configuration config = null)
+            : base(descriptor,config)
         {
             // Called once body has been parsed.
             BoundBodyContentToModel += (sender, eventArgs) =>
@@ -25,6 +26,7 @@ namespace EasyPatch.Common.Implementation
                 {
                     ((IPatchState)eventArgs.Model).AddBoundProperty(kvp.Key);
                 }
+              
             };
 
             // Called with every value in the RouteData collection.
