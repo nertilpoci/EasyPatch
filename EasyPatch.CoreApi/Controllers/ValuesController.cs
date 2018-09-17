@@ -3,24 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using EasyPatch.Common.Interface;
+using EasyPatch.CoreApi.Models;
 
 namespace EasyPatch.CoreApi.Controllers
 {
-    public class Test: IPatchState
-    {
-        public string Value { get; set; }
-
-        public void AddBoundProperty(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<KeyValuePair<string, string>> Validate()
-        {
-            throw new NotImplementedException();
-        }
-    }
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
@@ -28,6 +14,7 @@ namespace EasyPatch.CoreApi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            
             return new string[] { "value1", "value2" };
         }
 
@@ -40,8 +27,10 @@ namespace EasyPatch.CoreApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post(Test value)
+        public IActionResult Post([FromBody]TestPatchObject value)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             return Ok();
         }
 

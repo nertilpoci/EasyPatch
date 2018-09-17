@@ -6,6 +6,6 @@ namespace EasyPatch.Common.Install
 {
     public class Configuration
     {
-        public bool PopulateModelState => true;
+        public bool PopulateModelState { get; set; } = true;
     }
 }
