@@ -42,11 +42,13 @@ public static void Register(HttpConfiguration config)
         }
 ```
 
-```markdown
 # Using the library in your api controllers
+
 
 ## The Entity
 
+
+```markdown
 // Basic model, this will be the model you apply the patch to, could be your db entity when using entity framework
   public class User
     {
@@ -54,10 +56,13 @@ public static void Register(HttpConfiguration config)
         public string Username { get; set; }
     }
     
-    
+```
 
 
 ## The patch object
+
+
+```markdown
 
 The Patch Object should derive from EasyPatchModelBase wich has two generics. The Type of the patch object, and the object to patch the data into. In our case that would be User
 
@@ -82,8 +87,11 @@ The Patch Object should derive from EasyPatchModelBase wich has two generics. Th
 
     }
 
+```
 
 ## The Validator
+
+```markdown
 
  public class UserPatchValidator : AbstractPatchValidator<UserPatch>
     {
@@ -112,8 +120,14 @@ The Patch Object should derive from EasyPatchModelBase wich has two generics. Th
  
  
  
+ ```
  
+ 
+
  # Api Controllers Aspnet Core
+ 
+ 
+```markdown
  
        [HttpPatch]
         public IActionResult Post([FromBody]UserPatch value)
@@ -126,8 +140,13 @@ The Patch Object should derive from EasyPatchModelBase wich has two generics. Th
             return Ok(user);
         }
  
+ ```
+ 
  
  # Api Controllers Aspnet
+ 
+ 
+```markdown
  
         [HttpPatch]
         public IHttpActionResult Post(TestPatchObject model)
