@@ -1,9 +1,5 @@
-﻿using EasyPatch.Common.Implementation;
-using EasyPatch.Common.Install;
-using EasyPatch.Common.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+using EasyPatch.WebApi2;
 using System.Web.Http;
 
 namespace EasyPatch.WebApi

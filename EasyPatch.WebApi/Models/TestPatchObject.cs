@@ -20,7 +20,6 @@ namespace EasyPatch.WebApi.Models
         public String Property1 { get; set; }
         public String Property2 { get; set; }
 
-        public ModelStateDictionary ModelState => GetModelState(this);
         public override IEnumerable<KeyValuePair<string, string>> Validate()
         {
             return base.GetValidationErrors(this);

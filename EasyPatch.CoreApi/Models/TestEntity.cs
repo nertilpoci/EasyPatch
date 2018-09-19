@@ -5,9 +5,9 @@ using System.Web;
 
 namespace EasyPatch.CoreApi.Models
 {
-    public class TestEntity
+    public class User
     {
-        public string Property1 { get; set; }
-        public string Property2 { get; set; }
+        public string Name { get; set; }
+        public string Username { get; set; }
     }
 }

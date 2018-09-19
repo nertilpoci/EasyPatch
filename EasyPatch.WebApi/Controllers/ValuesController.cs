@@ -16,11 +16,12 @@ namespace EasyPatch.WebApi.Controllers
             return new string[] { "value1", "value2" };
         }
 
-       [HttpPatch]
+        [HttpPatch]
         public IHttpActionResult Post(TestPatchObject model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
+            var test = new TestEntity();
+            model.Patch(test);
             return Ok();
         }
     }

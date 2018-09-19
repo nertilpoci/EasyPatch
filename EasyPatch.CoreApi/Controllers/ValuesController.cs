@@ -27,15 +27,16 @@ namespace EasyPatch.CoreApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]TestPatchObject value)
+        public IActionResult Post([FromBody]UserPatch value)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            return Ok();
+            var user = new User();
+            value.Patch(user);
+            return Ok(user);
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }

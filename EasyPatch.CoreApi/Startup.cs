@@ -23,7 +23,7 @@ namespace EasyPatch.CoreApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options=> {
-                options.UseEasyPatch(new Common.Settings.Configuration { PopulateModelState = true });
+                options.UseEasyPatch();
             });
         }
 

@@ -8,16 +8,16 @@ using System.Web;
 namespace EasyPatch.CoreApi.Models
 {
 
-    public class TestPatchObject : EasyPatchModelBase<TestPatchObject, TestEntity>
+    public class UserPatch : EasyPatchModelBase<UserPatch, User>
     {
-        public TestPatchObject() : base(new TestObjectPatchValidator())
+        public UserPatch() : base(new UserPatchValidator())
         {
-            AddPatchStateMapping(x => x.Property1, x => x.Property1);
-            AddPatchStateMapping(x => x.Property2, x => x.Property2);
+            AddPatchStateMapping(x => x.Name, x => x.Name);
+            AddPatchStateMapping(x => x.Username, x => x.Username);
           
         }
-        public String Property1 { get; set; }
-        public String Property2 { get; set; }
+        public String Name { get; set; }
+        public String Username { get; set; }
 
         public override IEnumerable<KeyValuePair<string, string>> Validate()
         {
