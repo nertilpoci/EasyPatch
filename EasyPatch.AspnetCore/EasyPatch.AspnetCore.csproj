@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>nertil poci</Authors>
+    <Company>nertil poci</Company>
+    <PackageProjectUrl>https://nertilpoci.github.io/EasyPatch/</PackageProjectUrl>
+    <PackageIconUrl>https://i.imgur.com/7FxIdLp.png</PackageIconUrl>
+    <RepositoryUrl>https://nertilpoci.github.io/EasyPatch/</RepositoryUrl>
+    <Description>Patch support with validation for aspnetcore api</Description>
+    <PackageTags>patch, webapi, aspnet</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

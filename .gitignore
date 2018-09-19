@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+EasyPatch.AspnetCore/nuget.exe
+EasyPatch.AspNetWebApi/nuget.exe

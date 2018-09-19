@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyPatch.AspNetWebApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyPatch.AspNetWebApi.1.0.0\lib\netstandard2.0\EasyPatch.AspNetWebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="EasyPatch.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyPatch.AspNetWebApi.1.0.0\lib\netstandard2.0\EasyPatch.Common.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.8.0.100\lib\net45\FluentValidation.dll</HintPath>
     </Reference>
@@ -190,12 +196,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EasyPatch.Common\EasyPatch.Common.csproj">
-      <Project>{b155b195-70d5-40e3-9e1e-21e7db8e0473}</Project>
-      <Name>EasyPatch.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
