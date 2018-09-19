@@ -9,7 +9,7 @@ using System.Web.Http.ModelBinding;
 namespace EasyPatch.WebApi.Models
 {
 
-    public class TestPatchObject : AbstractPatchStateRequest<TestPatchObject, TestEntity>
+    public class TestPatchObject : EasyPatchModelBase<TestPatchObject, TestEntity>
     {
         public TestPatchObject() : base(new TestObjectPatchValidator())
         {

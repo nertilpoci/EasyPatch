@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EasyPatch.AspnetCore\EasyPatch.AspnetCore.csproj" />
     <ProjectReference Include="..\EasyPatch.Common\EasyPatch.Common.csproj" />
   </ItemGroup>
 

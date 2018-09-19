@@ -1,5 +1,6 @@
-﻿using EasyPatch.Common.Install;
+﻿using EasyPatch.Common.Settings;
 using EasyPatch.Common.Interface;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +17,15 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Metadata;
 using System.Web.Http.Validation;
 
-namespace EasyPatch.Common.Implementation
-{
-    public class BodyAndUriParameterBinding : HttpParameterBinding
+namespace EasyPatch.WebApi2
+{ 
+    public class EasyPatchParameterBinding : HttpParameterBinding
     {
-        public BodyAndUriParameterBinding(HttpParameterDescriptor descriptor, Configuration config=null)
-            : base(descriptor)
+        private readonly Configuration configuration;
+        private readonly IBodyModelValidator BodyModelValidator;
+        private readonly IEnumerable<MediaTypeFormatter> Formatters;
+        public EasyPatchParameterBinding(HttpParameterDescriptor descriptor, Configuration config = null)
+          : base(descriptor)
         {
             var httpConfiguration = descriptor.Configuration;
 
@@ -29,11 +33,6 @@ namespace EasyPatch.Common.Implementation
             Formatters = httpConfiguration.Formatters;
             configuration = config ?? new Configuration();
         }
-        private readonly Configuration configuration;
-        private readonly IBodyModelValidator BodyModelValidator;
-        public event EventHandler<BoundBodyContentToModelEventArgs> BoundBodyContentToModel;
-        public event EventHandler<BoundUriKeyToModelEventArgs> BoundUriKeyToModel;
-        private readonly IEnumerable<MediaTypeFormatter> Formatters;
         public override bool WillReadBody => true;
 
         public override Task ExecuteBindingAsync(
@@ -48,7 +47,6 @@ namespace EasyPatch.Common.Implementation
             return ExecuteBindingAsyncCore(metadataProvider, actionContext, paramFromBody, type, request, formatterLogger, cancellationToken);
         }
 
-        // Perf-sensitive - keeping the async method as small as possible.
         private async Task ExecuteBindingAsyncCore(
             ModelMetadataProvider metadataProvider,
             HttpActionContext actionContext,
@@ -95,7 +93,7 @@ namespace EasyPatch.Common.Implementation
             //custom validation from our rules
             if (configuration.PopulateModelState)
             {
-                if (model is IPatchState state)
+                if (model is IEasyPatchModel state)
                 {
                     foreach (var error in state.Validate())
                     {
@@ -105,28 +103,21 @@ namespace EasyPatch.Common.Implementation
             }
         }
 
-        protected virtual void OnBoundBodyContentToObject(object model, Stream bodyContent)
+        protected void OnBoundBodyContentToObject(object model, Stream bodyContent)
         {
-            if (BoundBodyContentToModel != null)
+            var rawContent = new StreamReader(bodyContent).ReadToEnd();
+
+            var dictionary = JObject.Parse(rawContent);
+
+            foreach (var kvp in dictionary)
             {
-                BoundBodyContentToModel(this, new BoundBodyContentToModelEventArgs()
-                {
-                    Content = bodyContent,
-                    Model = model
-                });
+                ((IEasyPatchModel)model).AddBoundProperty(kvp.Key);
             }
         }
 
-        protected virtual void OnBoundUriKeyToObject(object model, string key)
+        protected  void OnBoundUriKeyToObject(object model, string key)
         {
-            if (BoundUriKeyToModel != null)
-            {
-                BoundUriKeyToModel(this, new BoundUriKeyToModelEventArgs()
-                {
-                    Key = key,
-                    Model = model
-                });
-            }
+             ((IEasyPatchModel)model).AddBoundProperty(key);
         }
 
         private async Task<object> ReadContentAsync(
@@ -155,13 +146,11 @@ namespace EasyPatch.Common.Implementation
 
                 var contentString = new StreamReader(onReadBodyContentStream).ReadToEnd();
 
-                // Gets our hydrated request-model.
                 contentValue = await new StringContent(
                     contentString,
                     Encoding.UTF8,
                     content.Headers.ContentType?.MediaType).ReadAsAsync(type, formatters, formatterLogger, cancellationToken);
 
-                // Reset our stream so any registered-event can read.
                 onReadBodyContentStream.Seek(0, SeekOrigin.Begin);
 
                 OnBoundBodyContentToObject(contentValue, onReadBodyContentStream);
@@ -169,17 +158,6 @@ namespace EasyPatch.Common.Implementation
 
             return contentValue;
         }
-    }
 
-    public class BoundBodyContentToModelEventArgs : EventArgs
-    {
-        public Stream Content { get; set; }
-        public object Model { get; set; }
-    }
-
-    public class BoundUriKeyToModelEventArgs : EventArgs
-    {
-        public string Key { get; set; }
-        public object Model { get; set; }
     }
 }

@@ -4,35 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Web.Http.ModelBinding;
 
 namespace EasyPatch.Common.Implementation
 {
-    public abstract class AbstractPatchStateRequest<TRequest, TModel> : IPatchState<TRequest, TModel>
-   where TRequest : class, IPatchState<TRequest, TModel>, new()
+    public abstract class EasyPatchModelBase<TRequest, TModel> : IEasyPatchModel<TRequest, TModel>
+   where TRequest : class, IEasyPatchModel<TRequest, TModel>, new()
     {
 
-        public AbstractPatchStateRequest(AbstractPatchValidator<TRequest> validator)
+        public EasyPatchModelBase() { }
+        public EasyPatchModelBase(AbstractPatchValidator<TRequest> validator)
         {
             _validator = validator;
         }
-        public AbstractPatchStateRequest()
-        {
 
-        }
         protected AbstractPatchValidator<TRequest> _validator;
         protected readonly IList<string> boundProperties = new List<string>();
         private BindingFlags bindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public;
-        protected readonly IDictionary<string, Action<TModel>> patchStateMapping =
-            new Dictionary<string, Action<TModel>>(StringComparer.InvariantCultureIgnoreCase);
+        protected readonly IDictionary<string, Action<TModel>> patchStateMapping = new Dictionary<string, Action<TModel>>(StringComparer.InvariantCultureIgnoreCase);
 
         public void AddBoundProperty(string propertyName)
         {
-            if (!boundProperties.Contains(propertyName, StringComparer.InvariantCultureIgnoreCase))
-            {
-                boundProperties.Add(propertyName);
-            }
+            if (!boundProperties.Contains(propertyName, StringComparer.InvariantCultureIgnoreCase)) boundProperties.Add(propertyName);     
         }
 
         public TRequest AddPatchStateMapping<TProperty, TModelProperty>(
@@ -43,11 +35,7 @@ namespace EasyPatch.Common.Implementation
 
             var instanceProperty = GetType().GetProperty(propertyName, bindingFlags);
 
-            Action<TModel> mappingAction = (model) =>
-            {
-
-                BuildActionFromExpression(modelMapping)(model, (TModelProperty)instanceProperty.GetValue(this, null));
-            };
+            Action<TModel> mappingAction = (model) =>  BuildActionFromExpression(modelMapping)(model, (TModelProperty)instanceProperty.GetValue(this, null));
 
             AddPatchStateMapping(propertyExpression, mappingAction);
 
@@ -147,16 +135,6 @@ namespace EasyPatch.Common.Implementation
         protected virtual IEnumerable<KeyValuePair<string, string>> GetValidationErrors(TRequest request)
         {
             return _validator != null ? _validator.Validate(request).Errors.Select(z => new KeyValuePair<string, string>(z.PropertyName, z.ErrorMessage)) : Enumerable.Empty<KeyValuePair<string, string>>();
-        }
-        public  ModelStateDictionary GetModelState(TRequest request)
-        {
-                var state = new ModelStateDictionary() { };
-                foreach (var error in GetValidationErrors(request))
-                {
-                    state.AddModelError(error.Key, error.Value);
-                }
-                return state;
-            
         }
 
         public abstract IEnumerable<KeyValuePair<string, string>> Validate();

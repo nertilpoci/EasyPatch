@@ -1,5 +1,5 @@
-﻿using EasyPatch.Common.Install;
-using EasyPatch.Common.Interface;
+﻿using EasyPatch.Common.Interface;
+using EasyPatch.Common.Settings;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -14,12 +14,10 @@ namespace EasyPatch.Common.Implementation
 {
 
 
-    #region classdef
-    public class PatchBindingProvider : TextInputFormatter
-    #endregion
+    public class EasyPatchBindingProvider : TextInputFormatter
     {
         Configuration _config;
-        public PatchBindingProvider(Configuration config=null)
+        public EasyPatchBindingProvider(Configuration config =null)
         {
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("application/json"));
 
@@ -28,15 +26,12 @@ namespace EasyPatch.Common.Implementation
             _config = config??new Configuration();
         }
 
-        #region canreadtype
         protected override bool CanReadType(Type type)
         {
-            if(typeof(IPatchState).IsAssignableFrom(type)) return base.CanReadType(type);
+            if(typeof(IEasyPatchModel).IsAssignableFrom(type)) return base.CanReadType(type);
             return false;
         }
-        #endregion
 
-        #region readrequest
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding effectiveEncoding)
         {
             if (context == null)
@@ -60,12 +55,12 @@ namespace EasyPatch.Common.Implementation
                     var model = JsonConvert.DeserializeObject(rawContent,context.ModelType);
                     foreach (var kvp in dictionary)
                     {
-                        ((IPatchState)model).AddBoundProperty(kvp.Key);
+                        ((IEasyPatchModel)model).AddBoundProperty(kvp.Key);
                     }
                     //custom validation from our rules
                     if (_config.PopulateModelState)
                     {
-                        if (model is IPatchState state)
+                        if (model is IEasyPatchModel state)
                         {
                             foreach (var error in state.Validate())
                             {
@@ -82,6 +77,9 @@ namespace EasyPatch.Common.Implementation
             }
         }
 
-        #endregion
+        public override Task<InputFormatterResult> ReadAsync(InputFormatterContext context)
+        {
+            return base.ReadAsync(context); 
+        }
     }
 }

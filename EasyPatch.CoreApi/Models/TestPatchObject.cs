@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http.ModelBinding;
 
 namespace EasyPatch.CoreApi.Models
 {
 
-    public class TestPatchObject : AbstractPatchStateRequest<TestPatchObject, TestEntity>
+    public class TestPatchObject : EasyPatchModelBase<TestPatchObject, TestEntity>
     {
         public TestPatchObject() : base(new TestObjectPatchValidator())
         {
@@ -20,7 +19,6 @@ namespace EasyPatch.CoreApi.Models
         public String Property1 { get; set; }
         public String Property2 { get; set; }
 
-        public ModelStateDictionary ModelState => GetModelState(this);
         public override IEnumerable<KeyValuePair<string, string>> Validate()
         {
             return base.GetValidationErrors(this);

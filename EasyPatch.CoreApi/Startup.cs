@@ -6,10 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using EasyPatch.Common.Implementation;
-using EasyPatch.Common.Install;
+using EasyPatch.AspnetCore;
 
 namespace EasyPatch.CoreApi
 {
@@ -26,7 +23,7 @@ namespace EasyPatch.CoreApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options=> {
-                options.UseEasyPatch(new Configuration { PopulateModelState = true });
+                options.UseEasyPatch(new Common.Settings.Configuration { PopulateModelState = true });
             });
         }
 

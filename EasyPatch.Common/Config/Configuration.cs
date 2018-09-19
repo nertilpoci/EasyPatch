@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EasyPatch.Common.Install
+namespace EasyPatch.Common.Settings
 {
     public class Configuration
     {
