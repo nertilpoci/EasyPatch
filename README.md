@@ -1,17 +1,51 @@
-## Welcome to GitHub Pages
+## Easy Patch
 
-You can use the [editor on GitHub](https://github.com/nertilpoci/EasyPatch/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+A simple library to provide support for patching for you web api projects in a simple manner where you have control over what is going on.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Asp.net Core
 
 ```markdown
-Syntax highlighted code block
 
-# Header 1
+//Install the package
+
+Install-Package EasyPatch.AspnetCore
+
+
+
+//Register it in Startup.cs
+ public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc(options=> {
+                options.UseEasyPatch();
+            });
+        }  
+
+````
+
+
+
+### Asp.net
+
+```markdown
+
+//Install the package
+Install-Package EasyPatch.AspNetWebApi
+
+// Configure it in your WebApi.Config
+public static void Register(HttpConfiguration config)
+        {
+
+          ...............
+           
+           config.UseEasyPatch();
+          .......
+        }
+```
+
+```markdown
+# Using the library in your api controllers
+
+## Your binding model
 ## Header 2
 ### Header 3
 
