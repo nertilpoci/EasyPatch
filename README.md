@@ -5,7 +5,7 @@ A simple library to provide support for patching for you web api projects in a s
 
 ## Credits go to :  [ Rimdev.](https://rimdev.io/extending-patch-support-for-asp.net-webapi-part-i/)
 
-*Implemented their epic blog post into a nuget packaged, with support for ModelState binding and .net Core*
+*Implemented their epic blog post into a nuget packaged. With some extra support for ModelState binding and .net Core*
 
 
 ## Using the library
