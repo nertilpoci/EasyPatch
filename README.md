@@ -1,6 +1,17 @@
+
 ## Easy Patch
 
 A simple library to provide support for patching for you web api projects in a simple manner where you have control over what is going on.
+
+## Credits go to :  [ Rimdev.](https://rimdev.io/extending-patch-support-for-asp.net-webapi-part-i/)
+
+*Implemented their epic blog post into a nuget packaged, with support for ModelState binding and .net Core*
+
+
+## Using the library
+
+
+
 
 ### Asp.net Core
 
