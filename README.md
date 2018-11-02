@@ -46,10 +46,9 @@ Install-Package EasyPatch.AspNetWebApi
 public static void Register(HttpConfiguration config)
         {
 
-          ...............
+          // Other configurations here
            
            config.UseEasyPatch();
-          .......
         }
 ```
 
