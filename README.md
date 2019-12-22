@@ -3,9 +3,6 @@
 
 A simple library to provide support for patching for you web api projects in a simple manner where you have control over what is going on.
 
-## Inspired by :  [ Rimdev.](https://rimdev.io/extending-patch-support-for-asp.net-webapi-part-i/)
-
-*Implemented their epic blog post into a nuget packaged. With some extra support for ModelState binding and .net Core*
 
 
 ## Using the library
@@ -173,4 +170,6 @@ The Patch Object should derive from EasyPatchModelBase wich has two generics. Th
  
 
 ```
+
+##### Inspired by :  [ Rimdev.](https://rimdev.io/extending-patch-support-for-asp.net-webapi-part-i/)
 
